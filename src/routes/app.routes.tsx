@@ -4,9 +4,9 @@ import { Home } from '../screens/Home';
 import { Details } from '../screens/Details';
 import { Register } from '../screens/Register';
 
-const { Navigator, Screen } = createNativeStackNavigator();
-
 export function AppRoutes(){
+  const { Navigator, Screen } = createNativeStackNavigator();
+
   return(
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name='home' component={Home} />
