@@ -1,0 +1,65 @@
+import { useState } from 'react';
+import { Alert } from 'react-native';
+import { VStack } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
+import  firestore from '@react-native-firebase/firestore';
+
+import { Header } from '../components/Header';
+import { Input } from '../components/Input';
+import { Button } from '../components/Button';
+
+
+export function Register() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [patrimony, setPatrimony] = useState('');
+  const [description, setDescription] = useState('');
+
+  const navigation = useNavigation();
+
+  function handleNewOrderRegister(){
+    if(!patrimony || !description){
+      Alert.alert('Registrar', 'Preencha todos os campos.');
+    }
+
+    setIsLoading(true);
+
+    firestore()
+    .collection('orders')
+    .add({
+      patrimony,
+      description,
+      status: 'open',
+      creatd_at: firestore.FieldValue.serverTimestamp()
+
+    });
+    
+  }
+
+  return (
+    <VStack flex={1} p={6} bg='gray.600'>
+      <Header title='Nova solicitação'/> 
+
+      <Input 
+        placeholder='Numero do patrimonio'
+        mt={4}
+      />
+
+      <Input 
+        placeholder='Descrição do problema'
+        flex={1}
+        mt={5}
+        multiline
+        textAlignVertical='top'
+      />
+
+      <Button 
+        title='Cadastrar'
+        mt={5}
+      />
+    </VStack>
+  );
+}
+
+function then(arg0: () => void) {
+  throw new Error('Function not implemented.');
+}
