@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React,{ useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 
 import auth from '@react-native-firebase/auth';
@@ -38,7 +38,7 @@ export function Home() {
     auth()
     .signOut()
     .catch( (error) =>{
-      console.log(error);
+      console.log('erro ao fazer logout: ', error);
       return Alert.alert('Sair', 'Não foi possivel sair');
     });
   }
@@ -58,8 +58,8 @@ export function Home() {
           description,
           status,
           when: dateFormat(created_at)
-        }
-      })
+        };
+      });
 
       setOrders(data);
       setIsLoading(false);
@@ -115,8 +115,9 @@ export function Home() {
 
        </HStack>
 
-      { 
-       isLoading ? <Loading /> :
+      {isLoading ? (
+      <Loading /> 
+      ) : (
        <FlatList 
         data={orders}
         keyExtractor={(item) => item.id}
@@ -128,12 +129,13 @@ export function Home() {
             <ChatTeardropText color={colors.gray[300]} size={40} />
             <Text color='gray.300' fontSize='xl' mt={6} textAlign='center'>
               Você ainda não possui {'\n'}
-              solicitações {statusSelected === 'open' ? 'em andamento' : 'finalizads'}
+              solicitações {' '}
+              {statusSelected === 'open' ? 'em andamento' : 'finalizads'}
             </Text>
           </Center>
         )}
        />
-       }
+       )}
       <Button title='Nova solicitação' onPress={handleNewOrder}/>
      </VStack>
     </VStack>

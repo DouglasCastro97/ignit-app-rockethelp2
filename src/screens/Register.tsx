@@ -37,10 +37,13 @@ export function Register() {
       navigation.goBack();
     })
     .catch((error) => {
-      console.error(error)
+      console.log('erro ao registrar solicitação: ', error);
       setIsLoading(false);
-      return Alert.alert('Solicitação', 'Não foi possível registar o pedido.')
-    })
+      return Alert.alert(
+        'Solicitação',
+        'Não foi possível registrar o pedido.'
+      );
+    });
   }
 
   return (

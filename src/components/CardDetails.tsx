@@ -8,7 +8,7 @@ type Props = {
     footer?: string;
     icon: React.ElementType<IconProps>,
     children?: ReactNode;
-}
+};
 
 export function CardDetails({
     title,

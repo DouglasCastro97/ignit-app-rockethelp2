@@ -7,14 +7,21 @@ import { Envelope, Key } from 'phosphor-react-native';
 import Logo from "../assets/logo_primary.svg";
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
-import { Loading } from '../components/Loading';
+import { useNavigation } from '@react-navigation/native';
+
 
 export function SignIn(){
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('') 
+  const [password, setPassword] = useState('');
+
+	const navigation = useNavigation();
 
   const { colors } = useTheme();
+
+  function handleCreateAccount() {
+		navigation.navigate('signUp')
+	}
 
   function handleSignIn() {
     if(!email || !password) {
@@ -26,11 +33,11 @@ export function SignIn(){
 
     auth()
       .signInWithEmailAndPassword(email, password)
-     // .then ((response) => {
-       //   console.log(response)
-      //})
+     .then ((response) => {
+        console.log('resposta ao entrar:', response);
+      })
       .catch((error) => {
-        console.log(error);
+        console.log('erro ao fazer login:', error.code);
         setIsLoading(false);
 
         if(error.code === 'auth/invalid-email'){
@@ -81,6 +88,14 @@ export function SignIn(){
     onPress={handleSignIn} 
     isLoading={isLoading}
     />
+
+   <Button
+				title='Criar conta'
+				w='full'
+				bg='transparent'
+				_pressed={{ bg: 'gray.700' }}
+				onPress={handleCreateAccount}
+			/>
       
     </VStack>
   )

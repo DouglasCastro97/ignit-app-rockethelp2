@@ -7,11 +7,11 @@ export type OrderProps = {
   patrimony: string;
   when: string;
   status: 'open' | 'closed';
-}
+};
 
 type Props = IPressableProps & {
   data: OrderProps;
-}
+};
 
 export function Order({data, ...rest}: Props) {
   const { colors } = useTheme();
@@ -45,9 +45,10 @@ export function Order({data, ...rest}: Props) {
         <Circle bg={'gray.500'} h={12} w={12} mr={5}>
           {
             data.status ===  'closed'
-            ? <CircleWavyCheck size={24} color={statusColor} />   
-            : <Hourglass size={24} color={statusColor} />      
-          }
+            ? (<CircleWavyCheck size={24} color={statusColor} />   
+             ) :(
+               <Hourglass size={24} color={statusColor} />      
+          )}
         </Circle>
       </HStack>
     </Pressable>

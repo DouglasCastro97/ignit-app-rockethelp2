@@ -3,11 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 import { Loading } from '../components/Loading';
-import { SignIn } from '../screens/SignIn';
 import { AppRoutes } from './app.routes';
+import { SignRoutes } from './sign.routes';
 
 export function Routes(){
-  const [loading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User>();
 
   useEffect(() => {
@@ -20,13 +20,13 @@ export function Routes(){
     return subscriber;
   }, []);
 
-  if(loading) {
+  if(isLoading) {
     return<Loading />
   }
 
   return (
     <NavigationContainer>
-      {user ? <AppRoutes /> : <SignIn /> }
+      {user ? <AppRoutes /> : <SignRoutes /> }
     </NavigationContainer>
   )
 }
