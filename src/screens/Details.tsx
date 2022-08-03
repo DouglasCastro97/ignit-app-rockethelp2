@@ -31,16 +31,13 @@ type OrderDetails = OrderProps & {
 }
 
 export function Details() {
-
-  const [solution, setSolution] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [solution, setSolution] = useState('');
   const [order, setOrder] = useState<OrderDetails>({} as OrderDetails);
-
-  const navigation = useNavigation();
   const route = useRoute();
   const { orderId } = route.params as RouteParams;
-
   const {colors} = useTheme();
+  const navigation = useNavigation();
   
   function handleOrderClose() {
     if (!solution) {
@@ -59,10 +56,10 @@ export function Details() {
       Alert.alert('Solicitação', 'Solicitação encerrada.');
       navigation.goBack();
     })
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
       Alert.alert('Solicitação', 'Não foi possivel encerrar a solicitação.')
-    })
+    });
   }
   
   useEffect(() => {
@@ -82,10 +79,9 @@ export function Details() {
         solution,
         when: dateFormat(created_at),
         closed
-      })
-
+      });
       setIsLoading(false);
-    });
+    })
   },[]);
 
   if (isLoading) {
@@ -108,23 +104,24 @@ export function Details() {
             fontSize={'sm'}
             color={order.status === 'closed' ? colors.green[300] : colors.secondary[700]}
             ml={2}
-            textTransform={'uppercase'}
+            textTransform='uppercase'
           >
-           {order.status === 'closed' ? 'finalizado' : 'em andamento'}
+           {order.status === 'closed' ? 'Finalizado' : 'Em andamento'}
           </Text>
-
+          </HStack>
           <ScrollView mx={5} showsVerticalScrollIndicator={false}>
             <CardDetails
               title={'Equipamento'}
-              description={`Patrimônio ${order.patrimony}`}
+              description={`Patrimônio: ${order.patrimony}`}
               icon={DesktopTower}
+              footer={order.when}
             />
 
             <CardDetails
               title={'Descrição do problema'}
               description={order.description}
               icon={ClipboardText}
-              footer={`Registado em ${order.when}`}
+          
             />
 
             <CardDetails
@@ -140,8 +137,7 @@ export function Details() {
                   h={24}
                   textAlignVertical={'top'}
                   multiline
-                />
-              }
+                />}
             </CardDetails>
 
           </ScrollView>
@@ -154,8 +150,7 @@ export function Details() {
               onPress={handleOrderClose}
             />
           }
-
-        </HStack>
+          
     </VStack>
   );
 }

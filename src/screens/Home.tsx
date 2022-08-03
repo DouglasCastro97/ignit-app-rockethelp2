@@ -31,7 +31,7 @@ export function Home() {
   }
 
   function handleOpenDetails(orderId: string){
-    navigation.navigate('details', { orderId })
+    navigation.navigate('details', { orderId });
   }
 
   function handleLogout(){
@@ -49,7 +49,7 @@ export function Home() {
     const subscriber = firestore()
     .collection('orders')
     .where('status', '==', statusSelected)
-    .onSnapshot(snapshot => {
+    .onSnapshot(snapshot => { //reflete na aplicação em tempo real os dados do banco
       const data = snapshot.docs.map(doc => {
         const {patrimony, description, status, created_at} = doc.data();
         return {
@@ -115,12 +115,13 @@ export function Home() {
 
        </HStack>
 
-      { isLoading ? <Loading /> :
+      { 
+       isLoading ? <Loading /> :
        <FlatList 
         data={orders}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => <Order data={item} onPress={() => handleOpenDetails(item.id)} />}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false} // para que o scroll fique transparente
         contentContainerStyle={{ paddingBottom: 100 }}
         ListEmptyComponent={() => (
           <Center>

@@ -7,6 +7,7 @@ import { Envelope, Key } from 'phosphor-react-native';
 import Logo from "../assets/logo_primary.svg";
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
+import { Loading } from '../components/Loading';
 
 export function SignIn(){
   const [isLoading, setIsLoading] = useState(false);
@@ -25,9 +26,9 @@ export function SignIn(){
 
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then ((response) => {
-          console.log(response)
-      })
+     // .then ((response) => {
+       //   console.log(response)
+      //})
       .catch((error) => {
         console.log(error);
         setIsLoading(false);
