@@ -15,9 +15,7 @@ import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 
 import { OrderFirestoreDTO } from '../DTOs/OrderFirestoreDTO';
-
 import { dateFormat } from '../utils/firestoreDateFormat';
-
 import { CircleWavyCheck, ClipboardText, DesktopTower, Hourglass } from 'phosphor-react-native';
 
 type RouteParams = {
@@ -39,6 +37,7 @@ export function Details() {
   const {colors} = useTheme();
 
   const navigation = useNavigation();
+
   const route = useRoute();
   const { orderId } = route.params as RouteParams;
   
@@ -62,7 +61,7 @@ export function Details() {
       navigation.goBack();
     })
     .catch((error) => {
-      console.log('erro ao encerrar solicitação: ', error);
+      console.log(error);
       Alert.alert('Solicitação', 'Não foi possível encerrar a solicitação');
       setIsLoadingClosing(false);
     });
@@ -83,7 +82,7 @@ export function Details() {
 
       const closed = closed_at ? dateFormat(closed_at) : null;
 
-      setOrder({
+      setOrder({ //armazenar dentro de order os detalhes da solicitação que foram pegas 
         id: doc.id,
         patrimony,
         description,
@@ -109,11 +108,10 @@ export function Details() {
 
         <HStack bg={'gray.500'} justifyContent={'center'} p={4}>
           {
-            order.status === 'closed' ? (
-             <CircleWavyCheck size={22} color={colors.green[300]} />
-            ):(
-             <Hourglass size={22} color={colors.secondary[700]}/>
-          )}
+            order.status === 'closed' 
+            ?  <CircleWavyCheck size={22} color={colors.green[300]} />
+            :  <Hourglass size={22} color={colors.secondary[700]}/>
+          }
 
           <Text
             fontSize={'sm'}
@@ -121,6 +119,7 @@ export function Details() {
             ml={2}
             textTransform='uppercase'
           >
+
            {order.status === 'closed' ? 'Finalizado' : 'Em andamento'}
           </Text>
           </HStack>
@@ -128,7 +127,7 @@ export function Details() {
           <ScrollView mx={5} showsVerticalScrollIndicator={false}>
             <CardDetails
               title={'Equipamento'}
-              description={`Patrimônio: ${order.patrimony}`}
+              description={`Patrimônio ${order.patrimony}`}
               icon={DesktopTower}
             />
 
@@ -136,7 +135,7 @@ export function Details() {
               title={'Descrição do problema'}
               description={order.description}
               icon={ClipboardText}
-              footer={ order.when }
+              footer={order.when}
             />
 
             <CardDetails
@@ -145,7 +144,10 @@ export function Details() {
               description={order.solution}
               footer={order.closed && `Encerrado em ${order.closed}`}
             >
-              { order.status === 'open' && (
+
+
+              { 
+                order.status === 'open' && (
                 <Input
                   placeholder={'Descrição da solução'}
                   onChangeText={setSolution}
@@ -153,20 +155,19 @@ export function Details() {
                   textAlignVertical={'top'}
                   multiline
                 />
-              )}
+             )}
             </CardDetails>
-
           </ScrollView>
 
           {
-            order.status === 'open' && (
+            order.status === 'open' && 
             <Button
               title={'Encerrar solicitação'}
               m={5}
               isLoading={isLoadingClosing}
               onPress={handleOrderClose}
             />
-          )}
+          }
           
     </VStack>
   );

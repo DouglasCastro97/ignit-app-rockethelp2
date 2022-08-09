@@ -7,10 +7,12 @@ import { AppRoutes } from './app.routes';
 import { SignRoutes } from './sign.routes';
 
 export function Routes(){
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);//estado pra ver se ta carregando
   const [user, setUser] = useState<FirebaseAuthTypes.User>();
+  //anotar as informações se o usuario esta autenticado ou não
 
-  useEffect(() => {
+  useEffect(() =>  //usado pra ver se nosso usuario esta logado ou não 
+  {
     const subscriber = auth()
     .onAuthStateChanged(response => {
       setUser(response);
@@ -26,7 +28,8 @@ export function Routes(){
 
   return (
     <NavigationContainer>
-      {user ? <AppRoutes /> : <SignRoutes /> }
+      {user ? <AppRoutes /> : <SignRoutes /> } 
     </NavigationContainer>
+    //se o usuario existir mostrar AppRoutes, se não mostrar SignIn
   )
 }

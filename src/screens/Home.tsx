@@ -1,16 +1,12 @@
 import React,{ useState, useEffect } from 'react';
 import { Alert } from 'react-native';
-
 import auth from '@react-native-firebase/auth';
 import firestore from "@react-native-firebase/firestore";
-
 import { useNavigation } from '@react-navigation/native';
-
 import { HStack, IconButton, VStack, useTheme, Text, Heading, FlatList, Center } from 'native-base';
 import { ChatTeardropText, SignOut } from 'phosphor-react-native';
 
 import { dateFormat } from '../utils/firestoreDateFormat';
-
 import Logo from '../assets/logo_secondary.svg';
 
 import { Filter} from '../components/Filter';
@@ -21,7 +17,7 @@ import { Loading } from '../components/Loading';
 export function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [statusSelected, setStatusSelected] = useState<'open' | 'closed'>('open');
-  const [orders, setOrders] = useState<OrderProps[]>([]);
+  const [orders, setOrders] = useState<OrderProps[]>([]); //começa como uma coleção vazia
 
   const navigation = useNavigation();
   const { colors } = useTheme();
@@ -46,19 +42,21 @@ export function Home() {
   useEffect(() => {
     setIsLoading(true);
 
-    const subscriber = firestore()
-    .collection('orders')
-    .where('status', '==', statusSelected)
-    .onSnapshot(snapshot => { //reflete na aplicação em tempo real os dados do banco
+    const subscriber = firestore()//vai no banco de dados 
+    .collection('orders') //na coleção orders
+    .where('status', '==', statusSelected)  //faz um filtro onde o status for selecionado
+
+    .onSnapshot(snapshot => { //reflete os dados em tempo real na aplicação 
       const data = snapshot.docs.map(doc => {
         const {patrimony, description, status, created_at} = doc.data();
+
         return {
           id: doc.id,
           patrimony,
           description,
           status,
           when: dateFormat(created_at)
-        };
+        }
       });
 
       setOrders(data);
@@ -115,27 +113,27 @@ export function Home() {
 
        </HStack>
 
-      {isLoading ? (
-      <Loading /> 
-      ) : (
-       <FlatList 
-        data={orders}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Order data={item} onPress={() => handleOpenDetails(item.id)} />}
-        showsVerticalScrollIndicator={false} // para que o scroll fique transparente
-        contentContainerStyle={{ paddingBottom: 100 }}
-        ListEmptyComponent={() => (
-          <Center>
-            <ChatTeardropText color={colors.gray[300]} size={40} />
-            <Text color='gray.300' fontSize='xl' mt={6} textAlign='center'>
-              Você ainda não possui {'\n'}
-              solicitações {' '}
-              {statusSelected === 'open' ? 'em andamento' : 'finalizads'}
-            </Text>
-          </Center>
+      {
+        isLoading ? (<Loading /> 
+        ) : (
+        <FlatList 
+          data={orders}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <Order data={item} onPress={() => handleOpenDetails(item.id)} />}
+          showsVerticalScrollIndicator={false} // para que o scroll fique transparente
+          contentContainerStyle={{ paddingBottom: 100 }}
+          ListEmptyComponent={() => (
+            <Center>
+              <ChatTeardropText color={colors.gray[300]} size={40} />
+              <Text color='gray.300' fontSize='xl' mt={6} textAlign='center'>
+                Você ainda não possui {'\n'}
+                solicitações {' '}
+                {statusSelected === 'open' ? 'em andamento' : 'finalizads'}
+              </Text>
+            </Center>
         )}
        />
-       )}
+     )}
       <Button title='Nova solicitação' onPress={handleNewOrder}/>
      </VStack>
     </VStack>

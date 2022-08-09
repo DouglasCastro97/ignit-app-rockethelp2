@@ -24,7 +24,8 @@ export function SignIn(){
 	}
 
   function handleSignIn() {
-    if(!email || !password) {
+    if(!email || !password) //se o email ou a senha for nulo retorna o alert
+    {
       return Alert.alert('Entrar', 'Informe e-mail e senha.');
 
     }
@@ -53,6 +54,7 @@ export function SignIn(){
         }
 
         return Alert.alert('Entrar', 'Não foi possivel acessar');
+        //caso o usuario passe por todas exceções e tenha algum erro
     });
   }
 

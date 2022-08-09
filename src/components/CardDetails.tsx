@@ -29,7 +29,7 @@ export function CardDetails({
             </Text>
         </HStack>
         {
-            !!description &&
+            !!description && //se isso e verdade renderiza o Text
             <Text color={'gray.100'} fontSize={'md'}>
                 {description}
             </Text> 

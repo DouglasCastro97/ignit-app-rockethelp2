@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { Alert } from 'react-native';
 
 import  firestore from '@react-native-firebase/firestore';
-
 import { useNavigation } from '@react-navigation/native';
-
 import { VStack } from 'native-base';
 
 import { Button } from '../components/Button';
@@ -18,21 +16,21 @@ export function Register() {
   const navigation = useNavigation();
 
   function handleNewOrderRegister(){
-    if(!patrimony || !description){
+    if(!patrimony || !description){//valida se o patrimony ou o description foi informado, se não retorna o alert 
      return Alert.alert('Registrar', 'Preencha todos os campos.');
     }
 
     setIsLoading(true);
 
-    firestore()
+    firestore()//pra coletar as informações e mandar para o banco de dados 
     .collection('orders')
-    .add({
+    .add({//novo documento
       patrimony,
       description,
       status: 'open',
       creatd_at: firestore.FieldValue.serverTimestamp()
     })
-     .then (() => {
+     .then (() => { //se deu tudo certo
       Alert.alert('Solicitação', 'Solicitação registrada com sucesso.');
       navigation.goBack();
     })
