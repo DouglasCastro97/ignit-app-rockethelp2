@@ -81,7 +81,6 @@ export function Details() {
               solution } = doc.data();
 
       const closed = closed_at ? dateFormat(closed_at) : null;
-
       setOrder({ //armazenar dentro de order os detalhes da solicitação que foram pegas 
         id: doc.id,
         patrimony,
@@ -135,7 +134,7 @@ export function Details() {
               title={'Descrição do problema'}
               description={order.description}
               icon={ClipboardText}
-              footer={order.when}
+              footer={`Cadastrado em ${order.when}`}
             />
 
             <CardDetails
@@ -149,7 +148,7 @@ export function Details() {
               { 
                 order.status === 'open' && (
                 <Input
-                  placeholder={'Descrição da solução'}
+                  placeholder={'Descreva a solução'}
                   onChangeText={setSolution}
                   h={24}
                   textAlignVertical={'top'}

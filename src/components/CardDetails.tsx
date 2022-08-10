@@ -40,7 +40,7 @@ export function CardDetails({
         {
             !!footer &&
             <Box borderTopWidth={1} borderTopColor={'gray.400'} mt={3}>
-                <Text mt={3} color={'gray.300'} fontSize={'sm'}>
+                <Text mt={1} color={'gray.300'} fontSize='sm'>
                     {footer}
                 </Text>
             </Box>

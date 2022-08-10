@@ -28,7 +28,7 @@ export function Register() {
       patrimony,
       description,
       status: 'open',
-      creatd_at: firestore.FieldValue.serverTimestamp()
+      created_at: firestore.FieldValue.serverTimestamp()
     })
      .then (() => { //se deu tudo certo
       Alert.alert('Solicitação', 'Solicitação registrada com sucesso.');
