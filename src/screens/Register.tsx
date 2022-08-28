@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Image } from 'react-native';
+
+import * as ImagePicker from 'expo-image-picker';
 
 import  firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -8,12 +10,30 @@ import { VStack } from 'native-base';
 import { Button } from '../components/Button';
 import { Header } from '../components/Header';
 import { Input } from '../components/Input';
+import { ImageInfo } from '../@types/imagepick';
 
 export function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [patrimony, setPatrimony] = useState('');
   const [description, setDescription] = useState('');
+  const [image, setImage] = useState(null);
   const navigation = useNavigation();
+
+  const pickImage = async () => {
+    let result: ImagePicker.ImagePickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result)
+
+    if (!result.cancelled) {
+      const { uri } = result as ImageInfo
+      setImage(uri);
+    }
+  }
 
   function handleNewOrderRegister(){
     if(!patrimony || !description){//valida se o patrimony ou o description foi informado, se não retorna o alert 
@@ -27,6 +47,7 @@ export function Register() {
     .add({//novo documento
       patrimony,
       description,
+      uri: image,
       status: 'open',
       created_at: firestore.FieldValue.serverTimestamp()
     })
@@ -50,9 +71,16 @@ export function Register() {
 
       <Input 
         placeholder='Número do patrimônio'
-        mt={4}
+        mt={3}
         onChangeText={setPatrimony}
       />
+
+      <Button 
+        title='adicione'
+        onPress={pickImage}
+      />
+       {image && <Image  source={{ uri:image }} style={{width: 344, height: 200}}  />}
+
 
       <Input 
         placeholder='Descrição do problema'

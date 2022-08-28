@@ -13,6 +13,12 @@ export const THEME = extendTheme({
       500: '#00B37E',
       300: '#04D361',
     },
+
+    amber: {
+      500: '#f59e0b',
+      300: '#fcd34d'
+    },
+
     gray: {
       700: '#121214',
       600: '#202024',

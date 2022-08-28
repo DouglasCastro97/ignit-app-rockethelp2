@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
+import { TabRoutes } from './tab.routes';
+
 import { Loading } from '../components/Loading';
-import { AppRoutes } from './app.routes';
 import { SignRoutes } from './sign.routes';
 
 export function Routes(){
@@ -28,7 +29,7 @@ export function Routes(){
 
   return (
     <NavigationContainer>
-      {user ? <AppRoutes /> : <SignRoutes /> } 
+      {user ? <TabRoutes /> : <SignRoutes /> } 
     </NavigationContainer>
     //se o usuario existir mostrar AppRoutes, se não mostrar SignIn
   )

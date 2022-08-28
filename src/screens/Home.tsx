@@ -130,7 +130,7 @@ export function Home() {
               <Text color='gray.300' fontSize='xl' mt={6} textAlign='center'>
                 Você ainda não possui {'\n'}
                 solicitações {' '}
-                {statusSelected === 'open' ? 'em andamento' : 'finalizads'}
+                {statusSelected === 'open' ? 'em andamento' : 'finalizados'}
               </Text>
             </Center>
         )}

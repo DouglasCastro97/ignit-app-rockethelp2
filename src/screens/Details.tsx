@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Image } from 'react-native';
 
 import firestore from '@react-native-firebase/firestore';
 
@@ -68,12 +68,14 @@ export function Details() {
   }
   
   useEffect(() => {
+    setIsLoading(true)
     firestore()
     .collection<OrderFirestoreDTO>('orders')
     .doc(orderId)
     .get()
     .then((doc) => {
       const { patrimony,
+              uri,
               description, 
               status, 
               created_at, 
@@ -84,6 +86,7 @@ export function Details() {
       setOrder({ //armazenar dentro de order os detalhes da solicitação que foram pegas 
         id: doc.id,
         patrimony,
+        uri,
         description,
         status,
         solution,
@@ -93,7 +96,7 @@ export function Details() {
 
       setIsLoading(false);
     });
-  },[]);
+  },[orderId]);
 
   if (isLoading) {
     return <Loading />;
@@ -134,8 +137,13 @@ export function Details() {
               title={'Descrição do problema'}
               description={order.description}
               icon={ClipboardText}
-              footer={`Cadastrado em ${order.when}`}
-            />
+              footer={`Cadastrado em ${order.when}`}>
+
+              {
+                order.uri && <Image source={{uri:order.uri}} style={{width: 344, height: 200}}/>
+              }
+            
+                </CardDetails>
 
             <CardDetails
               title={'Solução'}
