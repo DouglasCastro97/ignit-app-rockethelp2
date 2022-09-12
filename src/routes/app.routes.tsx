@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { Rating } from '../screens/Rating';
 import { Home } from '../screens/Home';
 import { Details } from '../screens/Details';
 import { Register } from '../screens/Register';
@@ -17,6 +18,7 @@ export function AppRoutes(){
       <Screen name='home' component={Home} />
       <Screen name='new' component={Register} />
       <Screen name='details' component={Details} />
+      <Screen name='Star' component={Rating} />
     </Navigator>
   );
 }

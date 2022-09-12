@@ -27,7 +27,6 @@ export function Register() {
       quality: 1,
     });
 
-    console.log(result)
 
     if (!result.cancelled) {
       const { uri } = result as ImageInfo
@@ -64,7 +63,7 @@ export function Register() {
       );
     });
   }
-
+console.log()
   return (
     <VStack flex={1} p={6} bg='gray.600'>
       <Header title='Nova Solicitação'/> 
@@ -76,8 +75,10 @@ export function Register() {
       />
 
       <Button 
-        title='adicione'
+        title='Adicione uma imagem'
         onPress={pickImage}
+        mt={5}
+        bg='gray.200'
       />
        {image && <Image  source={{ uri:image }} style={{width: 344, height: 200}}  />}
 
@@ -89,7 +90,7 @@ export function Register() {
         multiline
         textAlignVertical='top'
         onChangeText={setDescription}
-      />
+        />
 
       <Button 
         title='Cadastrar'

@@ -16,7 +16,10 @@ import { Button } from '../components/Button';
 
 import { OrderFirestoreDTO } from '../DTOs/OrderFirestoreDTO';
 import { dateFormat } from '../utils/firestoreDateFormat';
-import { CircleWavyCheck, ClipboardText, DesktopTower, Hourglass } from 'phosphor-react-native';
+import { CircleWavyCheck, ClipboardText, DesktopTower, Hourglass, Star } from 'phosphor-react-native';
+
+import StarRating from 'react-native-star-rating-widget';
+
 
 type RouteParams = {
   orderId: string;
@@ -34,12 +37,33 @@ export function Details() {
   const [solution, setSolution] = useState('');
   const [order, setOrder] = useState<OrderDetails>({} as OrderDetails);
 
+  
+  const [rating, setRating] = useState(0);
+
   const {colors} = useTheme();
 
   const navigation = useNavigation();
 
   const route = useRoute();
   const { orderId } = route.params as RouteParams;
+
+  function Estrelas () {
+    (!rating)
+
+    console.log()
+
+    firestore()
+    .collection('orders')
+    .add({
+      rating,
+      Status: 'closed',
+      created_at: firestore.FieldValue.serverTimestamp()
+    })
+    .then(()=> {
+      Alert.alert('Avaliação', 'Avaliação enviada.');
+      navigation.goBack();
+    })
+  }
   
   function handleOrderClose() {
     if (!solution) {
@@ -47,6 +71,8 @@ export function Details() {
     }
 
 		setIsLoadingClosing(true);
+
+    console.log()
 
     firestore()
     .collection<OrderFirestoreDTO>('orders')
@@ -140,7 +166,7 @@ export function Details() {
               footer={`Cadastrado em ${order.when}`}>
 
               {
-                order.uri && <Image source={{uri:order.uri}} style={{width: 344, height: 200}}/>
+                order.uri && <Image source={{uri:order.uri}} style={{width: 313, height: 200}}/>
               }
             
                 </CardDetails>
@@ -155,24 +181,52 @@ export function Details() {
 
               { 
                 order.status === 'open' && (
-                <Input
+                  <Input
                   placeholder={'Descreva a solução'}
                   onChangeText={setSolution}
-                  h={24}
+                  h={'xs'}
                   textAlignVertical={'top'}
                   multiline
-                />
-             )}
+                  marginBottom={150}
+                  />
+                  )}
+
             </CardDetails>
-          </ScrollView>
+
+           
+            {
+              order.status === 'closed' &&(
+                <CardDetails 
+                title='Faça sua avaliação'
+                icon={Star}
+                >  
+              <StarRating
+                  rating={rating}
+                  onChange={setRating}
+                  starSize={24}  
+                  key={1}    
+                  /> 
+                 
+            {
+              order.status === 'closed' && (
+                <Button 
+                title='Enviar avaliação'
+                marginTop={8}
+                marginBottom={10}
+                onPress={Estrelas}
+                />
+           )}
+             </CardDetails>
+          )} 
+          </ScrollView >
 
           {
             order.status === 'open' && 
             <Button
-              title={'Encerrar solicitação'}
-              m={5}
-              isLoading={isLoadingClosing}
-              onPress={handleOrderClose}
+            title={'Encerrar solicitação'}
+            m={5}
+            isLoading={isLoadingClosing}
+            onPress={handleOrderClose}
             />
           }
           
