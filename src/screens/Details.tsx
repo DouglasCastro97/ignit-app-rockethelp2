@@ -34,6 +34,7 @@ type OrderDetails = OrderProps & {
 export function Details() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingClosing, setIsLoadingClosing] = useState(false);
+  const [evaluation, setEvaluation] = useState('')
   const [solution, setSolution] = useState('');
   const [order, setOrder] = useState<OrderDetails>({} as OrderDetails);
 
@@ -53,16 +54,23 @@ export function Details() {
     console.log()
 
     firestore()
-    .collection('orders')
-    .add({
+    .collection<OrderFirestoreDTO>('orders')
+    .doc(orderId)
+    .update({ 
       rating,
-      Status: 'closed',
+      evaluation,
+      status: 'rated',
       created_at: firestore.FieldValue.serverTimestamp()
     })
     .then(()=> {
-      Alert.alert('Avaliação', 'Avaliação enviada.');
+      Alert.alert('Avaliação', 'Obrigado por sua avaliação!');
       navigation.goBack();
     })
+    .catch((error) => {
+      console.log(error);
+      Alert.alert('Avaliação', 'Não foi possível enviar a avaliação');
+      setIsLoadingClosing(false);
+    });
   }
   
   function handleOrderClose() {
@@ -192,7 +200,6 @@ export function Details() {
                   )}
 
             </CardDetails>
-
            
             {
               order.status === 'closed' &&(
@@ -200,6 +207,14 @@ export function Details() {
                 title='Faça sua avaliação'
                 icon={Star}
                 >  
+                <Input 
+                  placeholder={'Deixe sua avaliação'}
+                  onChangeText={setEvaluation}
+                  h={'32'}
+                  textAlignVertical='top'
+                  multiline
+                  marginBottom={'5'}
+                  />
               <StarRating
                   rating={rating}
                   onChange={setRating}

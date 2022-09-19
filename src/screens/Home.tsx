@@ -9,18 +9,25 @@ import { ChatTeardropText, SignOut } from 'phosphor-react-native';
 import { dateFormat } from '../utils/firestoreDateFormat';
 import Logo from '../assets/logo_secondary.svg';
 
+import { Button2 } from '../components/Button2';
 import { Filter} from '../components/Filter';
 import { Button} from '../components/Button';
 import { Order, OrderProps } from '../components/Order';
 import { Loading } from '../components/Loading';
+import { Order2 } from '../components/Order2';
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true);
-  const [statusSelected, setStatusSelected] = useState<'open' | 'closed'>('open');
+  const [statusSelected, setStatusSelected] = useState<'open' | 'closed' | 'rated'>('open');
   const [orders, setOrders] = useState<OrderProps[]>([]); //começa como uma coleção vazia
 
   const navigation = useNavigation();
   const { colors } = useTheme();
+
+  
+  function handleOpenContact(){
+    navigation.navigate('contact')
+  }
 
   function handleNewOrder(){
     navigation.navigate('new');
@@ -96,7 +103,7 @@ export function Home() {
           </Text>
          </HStack>
 
-         <HStack space={3} mb={8}>
+         <HStack space={3} mb={5}>
           <Filter 
             type='open'
             title='Em andamento'
@@ -110,6 +117,24 @@ export function Home() {
             onPress={() => setStatusSelected('closed')}
             isActive={statusSelected === 'closed'}
           />
+            
+         
+       </HStack>
+
+       <HStack space={3} mb={5}>
+          <Filter 
+            type='rated'
+            title='Avaliações'
+            onPress={() => setStatusSelected ('rated')}
+            isActive={statusSelected === 'rated'}
+            borderColor={colors.darkBlue[600]}
+            color={'darkBlue600'}
+          />
+
+          <Button2 
+            title='Ramais'
+            onPress={handleOpenContact}
+          />
 
        </HStack>
 
@@ -119,12 +144,17 @@ export function Home() {
         <FlatList 
           data={orders}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Order data={item} onPress={() =>
-            //o componente order renderiza a cada item do array  
-          handleOpenDetails(item.id)} />}
-          showsVerticalScrollIndicator={false} // para que o scroll fique transparente
-          contentContainerStyle={{ paddingBottom: 100 }}
-          ListEmptyComponent={() => (
+          renderItem={({ item }) => 
+          { 
+             if(item.status === 'rated') 
+             {return <Order2 data={item}/>} 
+             else {return <Order data={item} 
+             onPress={() =>//o componente order renderiza cada item do array  
+             handleOpenDetails(item.id)} />}
+          }} 
+            showsVerticalScrollIndicator={false} // para que o scroll fique transparente
+            contentContainerStyle={{ paddingBottom: 100 }}
+            ListEmptyComponent={() => (
             <Center>
               <ChatTeardropText color={colors.gray[300]} size={40}  />
               <Text color='gray.300' fontSize='xl' mt={6} textAlign='center'>
@@ -133,7 +163,7 @@ export function Home() {
                 {statusSelected === 'open' ? 'em andamento' : 'finalizados'}
               </Text>
             </Center>
-        )}
+          )}
        />
      )}
       <Button title='Nova solicitação' onPress={handleNewOrder}/>

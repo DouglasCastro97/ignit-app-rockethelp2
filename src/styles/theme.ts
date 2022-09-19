@@ -19,6 +19,10 @@ export const THEME = extendTheme({
       300: '#fcd34d'
     },
 
+    darkBlue: {
+      600: '#005db4'
+    },
+
     gray: {
       700: '#121214',
       600: '#202024',

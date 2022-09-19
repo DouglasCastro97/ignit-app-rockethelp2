@@ -3,4 +3,4 @@ export * from './Home';
 export * from './Register';
 export * from './SignIn';
 export * from './SignUp';
-export * from './Rating';
+export * from './Contact';

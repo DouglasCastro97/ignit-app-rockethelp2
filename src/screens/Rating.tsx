@@ -1,17 +1,23 @@
-import React, { useEffect } from 'react';
-import { HStack, VStack, Text, } from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { HStack, VStack, Text, IconButton, useTheme } from 'native-base';
+import { Star, CaretLeft } from 'phosphor-react-native'
+
 import { CardDetails } from '../components';
-import { Star } from 'phosphor-react-native'
 
-import Logo from '../assets/logo_secondary.svg'
-
-
+import { useNavigation } from '@react-navigation/native';
 
 export function Rating() {
+ 
+  const {colors} = useTheme();
+  const navigation = useNavigation();
 
+  function handleGoback(){
+    navigation.goBack()
+  }
+
+
+ 
   return (
-   
-
     <VStack flex={1} pb={6} bg="gray.700">
 
         <HStack w='full'
@@ -22,23 +28,24 @@ export function Rating() {
           pb={5}
           px={6}>
 
-            <Logo />
+        <IconButton  onPress={handleGoback}>
+        <CaretLeft size={26} color={colors.gray[300]} />
+        
+        </IconButton>
+       
+    </HStack>
 
 
-        </HStack>
+    <VStack>
+       <CardDetails 
+        title='star'
+        icon={Star}
+       >
+        
 
 
-      <VStack>
-        <CardDetails
-          title='Etrelas'
-          icon={Star}
-          
-        >
-
-          <Text>
-            
-          </Text>
-        </CardDetails>
+       </CardDetails>
+     
         
       </VStack>
     </VStack>
