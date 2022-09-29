@@ -55,12 +55,14 @@ export function Home() {
 
     .onSnapshot(snapshot => { //reflete os dados em tempo real na aplicação 
       const data = snapshot.docs.map(doc => {
-        const {patrimony, description, status, created_at} = doc.data();
+        const {patrimony, description, status, rating, evaluation, created_at} = doc.data();
 
         return {
           id: doc.id,
           patrimony,
           description,
+          rating,
+          evaluation,
           status,
           when: dateFormat(created_at)
         }
@@ -128,7 +130,7 @@ export function Home() {
             onPress={() => setStatusSelected ('rated')}
             isActive={statusSelected === 'rated'}
             borderColor={colors.darkBlue[600]}
-            color={'darkBlue600'}
+            color={colors.darkBlue[600]}
           />
 
           <Button2 
@@ -145,7 +147,7 @@ export function Home() {
           data={orders}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => 
-          { 
+          { console.log(item)
              if(item.status === 'rated') 
              {return <Order2 data={item}/>} 
              else {return <Order data={item} 

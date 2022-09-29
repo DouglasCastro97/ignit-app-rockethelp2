@@ -78,7 +78,7 @@ console.log()
         title='Adicione uma imagem'
         onPress={pickImage}
         mt={5}
-        bg='gray.200'
+        bg='amber.500'
       />
        {image && <Image  source={{ uri:image }} style={{width: 344, height: 200}}  />}
 

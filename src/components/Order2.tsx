@@ -11,7 +11,7 @@ export function Order2({data, ...rest}: Props) {
   const { colors } = useTheme();
   const statusColor = data.status === 'rated' ? colors.darkBlue[600] : colors.darkBlue[600];
 
-  console.log(data.rating)
+  console.log('test', data)
   return (
    <HStack
       bg={'gray.600'}
@@ -25,11 +25,15 @@ export function Order2({data, ...rest}: Props) {
 
     <VStack flex={1} my={5} ml={5}>
       
-      <HStack> 
+      <VStack > 
        <Text color={'white'}> 
-       { `  ${data.patrimony}`}  
+       Comentario: {data.evaluation}  
        </Text> 
-      </HStack>
+
+       <Text color={'white'} mb='1' mt='1'> 
+       Avaliação de: {data.rating}  
+       </Text> 
+      </VStack>
 
       <HStack alignItems='center'>
         <ClockAfternoon size={15} color={colors.gray[300]} />
