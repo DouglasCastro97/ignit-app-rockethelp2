@@ -147,7 +147,7 @@ export function Home() {
           data={orders}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => 
-          { console.log(item)
+          {
              if(item.status === 'rated') 
              {return <Order2 data={item}/>} 
              else {return <Order data={item} 

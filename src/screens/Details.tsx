@@ -51,7 +51,6 @@ export function Details() {
   function Estrelas () {
     (!rating)
 
-    console.log()
 
     firestore()
     .collection<OrderFirestoreDTO>('orders')

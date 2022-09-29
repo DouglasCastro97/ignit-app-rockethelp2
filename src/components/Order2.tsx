@@ -26,6 +26,10 @@ export function Order2({data, ...rest}: Props) {
     <VStack flex={1} my={5} ml={5}>
       
       <VStack > 
+      <Text color={'white'} > 
+       Patrimonio: {data.patrimony}  
+       </Text> 
+
        <Text color={'white'}> 
        Comentario: {data.evaluation}  
        </Text> 
