@@ -135,6 +135,8 @@ export function Home() {
 
           <Button2 
             title='Ramais'
+            borderWidth={'isActive' ? 1 : 0}
+            borderColor={'isActive' ? colors.primary[700] : colors.gray[600]}
             onPress={handleOpenContact}
           />
 

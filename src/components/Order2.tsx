@@ -9,7 +9,7 @@ type Props = IPressableProps & {
 
 export function Order2({data, ...rest}: Props) {
   const { colors } = useTheme();
-  const statusColor = data.status === 'rated' ? colors.darkBlue[600] : colors.darkBlue[600];
+  const statusColor = data.status === 'rated' ? colors.darkBlue[600] : colors.gray[300];
 
   console.log('test', data)
   return (
