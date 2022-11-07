@@ -11,7 +11,6 @@ export function Order2({data, ...rest}: Props) {
   const { colors } = useTheme();
   const statusColor = data.status === 'rated' ? colors.darkBlue[600] : colors.gray[300];
 
-  console.log('test', data)
   return (
    <HStack
       bg={'gray.600'}

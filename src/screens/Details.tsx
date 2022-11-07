@@ -79,7 +79,6 @@ export function Details() {
 
 		setIsLoadingClosing(true);
 
-    console.log()
 
     firestore()
     .collection<OrderFirestoreDTO>('orders')
